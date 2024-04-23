@@ -1,5 +1,6 @@
-# Your Project's Title...
-Your project's description...
+# implementationdetails.dev
+
+Repository for the implementationdetails.dev blog, migrating from Jekyll to AEM Sites Edge Delivery Services.
 
 ## Environments
 - Preview: https://main--bruce-blog-on-edge--blefebvre.hlx.page/
