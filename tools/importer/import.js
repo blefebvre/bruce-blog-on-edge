@@ -42,14 +42,35 @@ export default {
       'iframe',
       'noscript',
       'div#cta',
-      'span.post-meta',
       'div.share-page',
       'div.post-footer',
       'div#disqus_recommendations',
       'div#disqus_thread',
     ]);
 
+    // Create "posts" component
+    const postsSelector = '.home .posts';
+    if (document.querySelector(postsSelector)) {
+      const cells = [
+        ['Posts']
+      ];
+
+      const postsBlock = WebImporter.DOMUtils.createTable(cells, document);
+      main.prepend(postsBlock);
+
+      WebImporter.DOMUtils.remove(main, [
+        postsSelector,
+        'span.post-meta',
+        '.pagination',
+        '.site-wrap',
+      ]);
+    }
+
     createMetadata(main, document);
+    WebImporter.DOMUtils.remove(main, [
+      'span.post-meta',
+    ]);
+
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
     WebImporter.rules.convertIcons(main, document);
@@ -72,7 +93,8 @@ export default {
   }) => {
     let p = new URL(url).pathname;
     if (p.endsWith('/')) {
-      p = `${p}index`;
+      // Remove trailing slash
+      p = p.slice(0, -1);
     }
     return decodeURIComponent(p)
       .toLowerCase()

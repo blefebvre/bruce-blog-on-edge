@@ -95,6 +95,19 @@ export function createMetadata(main, document) {
     }
   }
 
+  // Get the first span with class 'post-meta' under a div with class 'post-header'
+  const postMeta = document.querySelector('div.post-header span.post-meta');
+  if (postMeta) {
+    let dateString = postMeta.textContent.trim();
+    // Parse from this format 'Oct 17, 2023,' to unix epoch in seconds
+    if (dateString.endsWith(',')) {
+      dateString = dateString.slice(0, -1);
+    }
+    const date = new Date(dateString);
+    // Use seconds since the Unix epoch
+    meta['publication-date'] = date.getTime() / 1000;
+  }
+
   if (Object.keys(meta).length > 0) {
     const block = WebImporter.Blocks.getMetadataBlock(document, meta);
     main.append(block);
